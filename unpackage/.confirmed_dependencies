@@ -1,0 +1,12 @@
+{
+	"index.html": {
+		"resources": [
+			"css/fonts/fontawesome-webfont.woff2",
+			"css/common.css",
+			"css/font-awesome.min.css",
+			"css/style.css",
+			"img/star2.png",
+			"css/style1.css"
+		]
+	}
+}

@@ -1,0 +1,150 @@
+body {
+	background-color: #efeef3;
+}
+header {
+	height: 0.88rem;
+	background-color: #323943;
+	display: flex;
+	justify-content: space-around;
+}
+header .back {
+	position: absolute;
+	left: 0.14rem;
+}
+header i.fa-arrow-left {
+	font-size: 0.5rem;
+	color: #fff;
+	line-height: 0.88rem;
+}
+header .nav1 {
+	display: flex;
+	justify-content: space-between;
+}
+header .nav1 li {
+	width: 2rem;
+	display: flex;
+	align-items: center;
+}
+header .nav1 li a {
+	text-align: center;
+	color: #FFFFFF;
+	font-size: 0.35rem;
+}
+header .nav1 li a:hover {
+	color: #00c7a6;
+	cursor: pointer;
+}
+.sec1 {
+	width: 100%;
+	position: relative;
+	background-color: #FFFFFF;
+}
+.sec1 .nav2 {
+	margin: 0.2rem 5%;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+}
+.sec1 .nav2 li {
+	width: 5rem;
+	line-height: 0.55rem;
+	text-align: center;
+	border: 0.03rem #00c7a6 solid;
+	justify-content: space-around;
+}
+.sec1 .nav2 li a {
+	display: block;
+	color: #00c7a6;
+	font-size: 0.25rem;
+}
+.sec1 .nav2 li a:hover {
+	background-color: #00c7a6;
+	color: #FFFFFF;
+}
+.sec1 .nav3 {
+	display: flex;
+	justify-content: center;
+}
+.sec1 .nav3 li {
+	margin: 0.15rem 0.2rem;
+	width: 1rem;
+	line-height: 0.4rem;
+	text-align: center;
+	border: 0.03rem #b3b3b3 solid;
+	border-radius: 0.3rem;
+}
+.sec1 .nav3 li a {
+	display: block;
+	color: #b3b3b3;
+	font-size: 0.2rem;
+}
+.sec1 .nav3 li a:hover {
+	border-color: #EFC782;
+	color: #efc782;
+}
+.sec1 .nav3 li:hover {
+	border-color: #EFC782;
+}
+.check0 {
+	width: 0.5rem;
+	height: 0.5rem;
+}
+.sp1 {
+	font-size: 0.3rem;
+	color: #898989;
+}
+.sec2 {
+	width: 100%;
+	margin: 0.2rem 0rem;
+	padding: 0.3rem 0;	
+	background-color: #FFFFFF;
+}
+.sec2-header,.sec2-content,.sec2-footer{
+	margin-left:0.4rem;
+	padding: 0.1rem 0;	
+	line-height: 0.5rem;
+	display: flex;
+	justify-content: inherit;
+    align-items: inherit;
+}
+.name {
+	width: 1rem;
+	color: #000000;
+    font-weight: 700;
+	font-size: 0.3rem;
+}
+.date {
+	margin-left: 0.2rem;
+	font-size: 0.3rem;
+	color: #898989;
+}
+.time {
+	margin-left: 3.5rem;
+	font-size: 0.3rem;
+	color: #898989;
+}
+.sell {
+	width: 1rem;
+	font-size: 0.35rem;
+	color: #898989;
+}
+.star img{
+	width:0.2rem;
+	height: 0.2rem;
+}
+.assess{
+	display: flex;
+	justify-content: center;
+}
+.assess li {
+	margin-left: 0.15rem;
+	width: 1.1rem;
+	font-size: 0.25rem;
+	color: #898989;
+	text-align: center;
+}
+.text{
+	font-size: 0.3rem;
+	text-align: left;
+	color: #898989;
+}

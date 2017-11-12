@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>用户评价</title>
+
+    <link rel="stylesheet" href="css/common.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+	<link rel="stylesheet" href="css/style1.css" type="text/css" />
+	<script src="js/jquery.min.js"></script>
+</head>
+<body>
+	
+	<header>
+		<a href="#"><i class="fa fa-arrow-left"></i></a>
+		<ul class="nav1">
+			<li><a onclick="yhpj()">用户评价</a></li>
+			<li><a onclick="pjtj()">评价统计</a></li>
+		</ul>
+	</header>
+
+	<div id="wrapper">
+		<div id="scroller">
+			<div id="pullDown">
+				<span class="pullDownLabel">下拉刷新</span>
+			</div>
+			<div id="Yhpj">
+					<section>
+						<section class="sec1">
+							<ul class="nav2">
+								<li><a>未回复差评()</a></li>
+								<li><a>未回复()</a></li>
+								<li><a>全部</a></li>
+							</ul>
+							<ul class="nav3">
+								<li><a>全部()</a></li>
+								<li><a>好评()</a></li>
+								<li><a>中评()</a></li>
+								<li><a>差评()</a></li>
+							</ul>
+								<input type="checkbox" class="check0">
+								<span class="sp1">只看有内容的评论</span>
+						</section>	
+						<section class="sec2">
+							<div class="sec2-header">
+								<div class="name">L***a</div>
+								<div class="date">10-11</div>
+								<div class="time">41分钟送达</div>
+							</div>
+							<div class="sec2-content">
+								<div class="sell">商家</div>
+								<div class="star">
+									<img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png">  
+								</div>
+								<ul class="assess">
+									<li>无懈可击</li>
+									<li>口味5星</li>
+									<li>包装5星</li>
+									<li>配送5星</li>
+								</ul>				
+							</div>
+							<!-- <div class="sec2-footer">
+								<div class="text">
+								每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食
+								</div>
+							</div> -->
+						</section>
+						<section class="sec2">
+								<div class="sec2-header">
+									<div class="name">L***a</div>
+									<div class="date">10-11</div>
+									<div class="time">41分钟送达</div>
+								</div>
+								<div class="sec2-content">
+									<div class="sell">商家</div>
+									<div class="star">
+										<img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png">  
+									</div>
+									<ul class="assess">
+										<li>无懈可击</li>
+										<li>口味5星</li>
+										<li>包装5星</li>
+										<li>配送5星</li>
+									</ul>				
+								</div>
+								<div class="sec2-footer">
+									<div class="text">
+									每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食
+									</div>
+								</div>
+							</section>
+						<section class="sec2">
+							<div class="sec2-header">
+								<div class="name">匿名用户</div>
+								<div class="date">10-11</div>
+								<div class="time">41分钟送达</div>
+							</div>
+							<div class="sec2-content">
+								<div class="sell">商家</div>
+								<div class="star">
+									<img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png">  
+								</div>
+								<ul class="assess">
+									<li>无懈可击</li>
+									<li>口味5星</li>
+									<li>包装5星</li>
+									<li>配送5星</li>
+								</ul>				
+							</div>
+							<!-- <div class="sec2-footer">
+								<div class="text">
+								每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食每个城市都有不一样的街景，不一样的美食
+								</div>
+							</div> -->
+						</section>
+						</section>
+					</div>
+			<div id="pullUp">
+				<span class="pullUpLabel">上拉加载更多</span>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="Pjtj" style="display: none;">
+	
+	<section>
+		<section class="sec1_1">
+			<div class="sec1_left">
+				<div class="sec1_left_up">
+					<div class="score">4.4</div>
+					<div class="point">↑</div>
+				</div>
+				<div class="p1">商家评分</div>
+				<div class="all">总评价数：64</div>
+			</div>
+			<div class="sec1_right">
+				<div class="sec1_right_up">
+					<div class="p2">评价口碑</div>
+					<div class="grade">一般</div>
+					<div class="a"><a>�</a></div>
+				</div>
+				<div class="alltext">提升空间巨大，商家评分超过48%同行，关注评价建议可以改善口碑</div>
+			</div>
+		</section>
+		<section class="sec2">
+			<div class="sec2_top">
+				<ul class="ul1">
+					<li>口味评分</li>
+					<li>包装评分</li>
+					<li>配送评分</li>
+				</ul>
+			</div>
+			<div class="sec2_bottom">
+				<ul class="ul2">
+					<li class="ul2_li">
+						<div class="ul2_p">4.2</div>
+						<div class="ul2_point">↓</div>
+					</li>
+					<li class="ul2_li">
+						<div class="ul2_p">4.4</div>
+						<div class="ul2_point">↑</div>
+					</li>
+					<li class="ul2_li">
+						<div class="ul2_p">4.5</div>
+						<div class="ul2_point">↑</div>
+						<div class="ul2_time">36min</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<section class="sec3">
+			<ul class="sec3_nav">
+				<li><a>送货快(77)</a></li>
+				<li><a>骑手服务好(88)</a></li>
+				<li><a>味道赞(99)</a></li>
+				<li><a>分量足(66)</a></li>
+				<li><a>配送慢(44)</a></li>
+				<li><a>口味一般(33)</a></li>			
+			</ul>
+		</section>
+		<section class="sec4">
+			<div class="sec4_header">
+				<div class="sec4_p1">中差评统计</div>
+				<div class="sec4_p2">(近30天一二星统计，0：00更新)</div>
+			</div>
+			<div class="sec4_text">您的店铺在口味方面差评较多，请着重优化菜品口味，以提升店铺口碑</div>
+			<div class="sec4_footer">
+				<div class="Jdt">
+					<div class="sec4_p">商家中差评</div>
+					<div class="sec4_jdt"><div class="jindutiao"></div></div>
+					<div class="sec4_a">6条<a>></a></div>
+				</div>
+				<div class="Jdt">
+					<div class="sec4_p">口味中差评</div>
+					<div class="sec4_jdt"><div class="jindutiao"></div></div>
+					<div class="sec4_a">6条<a>></a></div>
+				</div>
+				<div class="Jdt">
+					<div class="sec4_p">包装中差评</div>
+					<div class="sec4_jdt"><div class="jindutiao"></div></div>
+					<div class="sec4_a">6条<a>></a></div>
+				</div>
+				<div class="Jdt">
+					<div class="sec4_p">配送中差评</div>
+					<div class="sec4_jdt"><div class="jindutiao"></div></div>
+					<div class="sec4_a">6条<a>></a></div>
+				</div>
+				
+			</div>
+		</section>
+		<section class="sec5">
+			<div class="sec5_header">
+				<div class="sec5_p1">商品好评榜</div>
+				<div class="sec5_p2">(历史统计结果)</div>
+			</div>
+			<ul class="sec5_card">
+				<li  class="card">
+					<div class="card_left"><img src=""/></div>
+					<div class="card_right">
+						<div class="no">No.1</div>
+						<div class="card_name">杂酱面</div>
+						<div class="card_foot">
+							<div class="good"></div>
+							<div class="card_num">20赞</div>
+							<div class="card_text">月销70</div>
+						</div>
+					</div>
+				</li>
+				<li  class="card">
+					<div class="card_left"><img src=""/></div>
+					<div class="card_right">
+						<div class="no">No.1</div>
+						<div class="card_name">杂酱面</div>
+						<div class="card_foot">
+							<div class="good"></div>
+							<div class="card_num">20赞</div>
+							<div class="card_text">月销70</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</section>
+	</section>
+	</div>
+	
+<script type="text/javascript">
+    	changeRootFont();
+		function changeRootFont() {
+			document.documentElement.style.fontSize=((window.innerWidth / 750) * 100) + 'px';
+		  }
+		window.addEventListener('resize', changeRootFont, false);
+		function yhpj(){
+				document.getElementById("Pjtj").style.display =  "none";
+				document.getElementById("Yhpj").style.display = "inherit";
+			}
+		function pjtj(){
+				document.getElementById("Yhpj").style.display =  "none";
+				document.getElementById("Pjtj").style.display = "inherit";
+		}
+</script>
+<script src="js/main.js"></script>
+<script src="js/iscroll.js"></script>
+
+</body>
+</html>
