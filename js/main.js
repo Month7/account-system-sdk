@@ -1,5 +1,5 @@
 $(function(){
-/*==========================================================本地测试版=================================================*/
+
     $(".xxxx").click(function(){
         var username="test";
         var content="eat";
@@ -9,12 +9,12 @@ $(function(){
    });
     $(".check0").click(function(){
         if(this.checked){
-            $(".sec2").each(function(){
-                if($(this).find("div.sec2-footer").find(".text").length>0){
-                $(this).show();
+            $("#Yhpj").find(".sec2").each(function(){
+                if($(this).find("div.sec2-footer").find(".text").html()==null||$(this).find("div.sec2-footer").find(".text").html().length==0){
+                    $(this).hide();
                 }
                 else{
-                    $(this).hide();
+                    $(this).show();
                 }
             })
     }
@@ -26,26 +26,36 @@ $(function(){
     var flag=1;
     $(window).scroll(function(){      
         if($(window).scrollTop() + $(window).height() >= $(document).height()-200){           //滚动到底部加载的判断条件：滚动高度 + 可视高度 >= 文档高度-200 也可能不是200，我也懒得调
-            var username="下拉加载内容";
-            var content="最多刷5个";
             var timer=(function(){
             });
             var timer=setTimeout(function(){                     //设置定时器
                 if(flag){
-                    if(i<5){
-                        $("#Yhpj").append('<section class="sec2"><div class="sec2-header"><div class="name">'+username+'</div><div class="date">10-11</div><div class="time">41分钟送达</div></div><div class="sec2-content"><div class="sell">商家</div><div class="star"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"></div><ul class="assess"><li>无懈可击</li><li>口味5星</li><li>包装5星</li><li>配送5星</li></ul></div><div class="sec2-footer"><div class="text">'+content+'</div></section>');
-                        i++;
-                    }
-                    else{
-                        $(".pullUpLabel").text("别刷了没了");
-                        flag=0;
-                    }
+                    $.ajax({                                  //从后台获取数据
+                        type: "GET",                          //get方法
+                        url: "test.json",                  
+                        dataType: "json",
+                        success : function(data){                        //获取成功后
+                                if(data==""){
+                                    flag=0;
+                                    $(".pullUpLabel").text("别刷了没了");     
+                                }
+                                else{
+                                    var txtHtml="";
+                                    var html = '';
+                                    $.each( data  , function(commentIndex, comment) {
+                                        txtHtml+='<section class="sec2"><div class="sec2-header"><div class="name">'+comment['username']+'</div><div class="date">10-11</div><div class="time">'+comment['time']+'</div></div><div class="sec2-content"><div class="sell">商家</div><div class="star"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"><img src="img/star2.png"></div><ul class="assess"><li>无懈可击</li><li>口味5星</li><li>包装5星</li><li>配送5星</li></ul></div><div class="sec2-footer"><div class="text">'+comment['content']+'</div></div></section>';
+                                    })
+                                    $("#Yhpj").append(txtHtml);
+                                    flag=0;
+                                }   
+                        }
+                      }); 
                 }
                 else{
                     $(".pullUpLabel").text("别刷了没了");     
                     clearTimeout(timer);
                 } 
-            },1500);	
+            },1000);	
         }
     })
 
