@@ -1,3 +1,5 @@
+var fileInclude  = require('gulp-file-include');
+
 var destMod = {
     output: './dist/dest',
     minify: true,
@@ -13,7 +15,7 @@ var destMod = {
         js: [],
         css: [],
         imgs: [],
-        html: []
+        html: [{ func: fileInclude, opts: { prefix: '@@', basepath: '@file'}}]
     },//自定义任务
     define: {
         __DEST__: true,
@@ -54,7 +56,7 @@ module.exports = {
 
     entries: ['./src/html/**', './src/*.html'],
 
-    ignore: ['./src/lib'],
+    ignore: ['./src/lib', './src/css/lib'],
 
     imgFolder: './src/images',
 
@@ -87,7 +89,7 @@ module.exports = {
             js: [],
             css: [],
             imgs: [],
-            html: []
+            html: [{ func: fileInclude, opts: { prefix: '@@', basepath: '@file'}}]
         },//自定义任务, 格式样例[{func: sass, opts: {logger: true}}, {func: task, opts: null }]
         server: true,
         buildTarget: 'default'
@@ -108,15 +110,7 @@ module.exports = {
                 cookie: ""
             }
         },
-        ajaxOnly: false,
-        toolsConf: {
-            weinre: {
-                open: false, //和移动调试工具条中的vconsole冲突, 当为true时vconsole自动关闭
-                port: 9001
-            },
-
-            showTools: true //移动端调试工具条，PC端开发可关闭
-        }
+        ajaxOnly: false
     },
 
     serverConfig: {
