@@ -4,7 +4,8 @@
 ## Usage
 
 ```
-$ npm install
-$ npm install -g gulp
-$ gulp
+$ npm install html-bundler -g
+$ cd project && npm install
+$ hb dev -p 8080
+$ hb dest
 ```
