@@ -1,0 +1,227 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = require('./utils.js');
+
+var _fetch = require('./fetch.js');
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var render = Symbol('render');
+var event = Symbol('event');
+
+var Region = function () {
+    function Region(opts) {
+        var _this = this;
+
+        _classCallCheck(this, Region);
+
+        if (!opts.container) {
+            throw '请填写container配置';
+        }
+        if (!opts.name) {
+            throw '请填写name配置';
+        } else {
+            this[render](opts).then(function (regionData) {
+                _this[event](opts, regionData);
+            });
+        }
+    }
+
+    _createClass(Region, [{
+        key: render,
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(opts) {
+                var regionData, tpl;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return (0, _fetch.fetchJson)('/region-data', {});
+
+                            case 2:
+                                regionData = _context.sent;
+
+                                regionData = regionData.data;
+                                tpl = '\n         <div class="region-select-wrapper">\n            <select id="region-province-select"></select>\n            <select id="region-city-select"></select>\n            <select id="region-area-select"></select>\n            <input id="region-selected" name="' + opts.name + '" type="hidden" valid="' + (opts.present ? 'present' : '') + '">\n        </div>\n        ';
+
+                                opts.container.innerHTML = tpl;
+
+                                return _context.abrupt('return', regionData);
+
+                            case 7:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function value(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return value;
+        }()
+    }, {
+        key: event,
+        value: function value(opts, regionData) {
+            var $provinceSelect = (0, _utils.getId)('region-province-select');
+            var $citySelect = (0, _utils.getId)('region-city-select');
+            var $areaSelect = (0, _utils.getId)('region-area-select');
+            var $result = (0, _utils.getId)('region-selected');
+
+            var provinceSelected = void 0;
+            var citySelected = void 0;
+            var areaSelected = void 0;
+            var provinceOptions = '<option></option>';
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = regionData[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var item = _step.value;
+
+                    provinceOptions += '<option value="' + item.id + '">' + item.name + '</option>';
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            $provinceSelect.innerHTML = provinceOptions;
+
+            var provinceChange = function provinceChange(index) {
+                var i = index || parseInt($provinceSelect.value);
+
+                var citys = regionData[i - 1].city;
+                var cityOptions = '';
+                provinceSelected = i;
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = citys[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var item = _step2.value;
+
+                        cityOptions += '<option value="' + item.id + '">' + item.name + '</option>';
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+
+                $citySelect.innerHTML = cityOptions;
+                if (index) {
+                    $provinceSelect.value = index;
+                }
+            };
+            var cityChange = function cityChange(index) {
+                var areas = regionData[provinceSelected - 1].city.filter(function (item) {
+                    return item.id == parseInt($citySelect.value);
+                })[0].district;
+
+                var areaOptions = '';
+                citySelected = parseInt($citySelect.value);
+                var _iteratorNormalCompletion3 = true;
+                var _didIteratorError3 = false;
+                var _iteratorError3 = undefined;
+
+                try {
+                    for (var _iterator3 = areas[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                        var item = _step3.value;
+
+                        areaOptions += '<option value="' + item.id + '">' + item.name + '</option>';
+                    }
+                } catch (err) {
+                    _didIteratorError3 = true;
+                    _iteratorError3 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                            _iterator3.return();
+                        }
+                    } finally {
+                        if (_didIteratorError3) {
+                            throw _iteratorError3;
+                        }
+                    }
+                }
+
+                $areaSelect.innerHTML = areaOptions;
+                if (index) {
+                    $citySelect.value = index;
+                }
+            };
+            var areaChange = function areaChange(index) {
+                areaSelected = parseInt($areaSelect.value);
+                $result.value = provinceSelected + ',' + citySelected + areaSelected;
+                if (index) {
+                    $areaSelect.value = index;
+                }
+            };
+            if (opts.initData && Array.isArray(opts.initData)) {
+
+                var data = opts.initData;
+
+                if (data[0]) {
+
+                    provinceChange(data[0]);
+                }
+                if (data[1]) {
+                    cityChange(data[1]);
+                }
+                if (data[2]) {
+                    areaChange(data[2]);
+                }
+            }
+            $provinceSelect.onchange = function () {
+                provinceChange();
+                cityChange();
+                areaChange();
+            };
+            $citySelect.onchange = function () {
+                cityChange();
+                areaChange();
+            };
+            $areaSelect.onchange = function () {
+                areaChange();
+            };
+        }
+    }]);
+
+    return Region;
+}();
+
+exports.default = Region;

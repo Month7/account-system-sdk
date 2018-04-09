@@ -1,0 +1,90 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _utils = require('../common/utils.js');
+
+var _fetch = require('../common/fetch.js');
+
+var _fromCheck = require('../common/from-check.js');
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @Author: mikey.zhaopeng 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @Date: 2018-02-15 00:27:03 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @Last Modified by: mikey.zhaopeng
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @Last Modified time: 2018-02-16 03:32:24
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
+
+
+exports.default = function () {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var $loginForm = (0, _utils.getId)('login-form');
+    var $loginBtn = (0, _utils.getId)('login-btn');
+    var $remember = (0, _utils.getId)('login-remember');
+    var $clearAccount = (0, _utils.getId)('clear-account');
+    var $clearPassword = (0, _utils.getId)('clear-password');
+    var $account = (0, _utils.getId)('login-account');
+    var $password = (0, _utils.getId)('login-password');
+    var $error = (0, _utils.getId)('login-error');
+    //表单验证
+    $loginForm.onsubmit = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+            var checkResults, data;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            e.preventDefault(e);
+                            /**
+                             * 点击登录
+                             */
+                            // const v=await fetch(url,{}).then((res)=>{
+
+                            // })
+                            // handle(v);
+
+                            // let remember='0';
+                            // if($remember.getAttribute('checked')){
+                            //     remember='1';
+                            // }
+                            checkResults = (0, _fromCheck.check)($loginForm);
+
+                            console.log(checkResults);
+                            // console.log(checkResults.length);
+
+                            if (checkResults.length) {
+                                _context.next = 8;
+                                break;
+                            }
+
+                            _context.next = 6;
+                            return (0, _fetch.fetchPost)('/login', {
+                                account: $account.value,
+                                password: $password.value
+                                // remember:remember
+                            });
+
+                        case 6:
+                            data = _context.sent;
+
+                            console.log(data);
+
+                        case 8:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function (_x2) {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    $account.oninput = function () {};
+    $clearAccount.onclick = function () {};
+    $password.oninput = function () {};
+};

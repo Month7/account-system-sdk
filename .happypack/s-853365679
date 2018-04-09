@@ -1,0 +1,32 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.regPayment = undefined;
+
+require('../../common/polyfill.js');
+
+var _render = require('./render.js');
+
+var _render2 = _interopRequireDefault(_render);
+
+var _event = require('./event.js');
+
+var _event2 = _interopRequireDefault(_event);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var regPayment = function regPayment() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var defaultOpts = {
+        paymentPlaceHolder: '请输入xx账号',
+        paymentPasswordPlaceHolder: '请输入xx密码'
+    };
+
+    var options = Object.assign(defaultOpts, opts);
+    (0, _render2.default)(options);
+    (0, _event2.default)(options);
+};
+exports.regPayment = regPayment;

@@ -1,0 +1,35 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _utils = require('../common/utils.js');
+
+var template = function template() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+
+    var autocompleteTPL = '\n        <div id="no-autocomplete">\n            <input type="text">\n            <input type="password">\n        </div>\n    ';
+
+    var autocompleteAdapter = opts.autocomplete ? '' : autocompleteTPL;
+    var autocomplete = opts.autocomplete;
+    var tpl = '\n        <div id="login-wrapper">\n            <form id="login-form" onsubmit="return false">\n            ' + autocompleteAdapter + '    \n            <label class="login-accout-wrapper">\n                    <span class="account-label">\n                        ' + opts.accountLabel + '\n                    </span>\n                    <input id="login-account" name="account"\n                    type="text" placeholder="' + opts.accountPlaceholder + '" autocomplete="' + autocomplete + '\n                    " valid="present">\n                    <span id="clear-account" class="del">\n                </label>\n\n                <label class="login-accout-wrapper">\n                <span class="password-label">\n                    ' + opts.passwordLabel + '\n                </span>\n                <input id="login-password" name="password"\n                type="text" placeholder="' + opts.passwordPlaceholder + '" autocomplete="' + autocomplete + '"\n                valid="present">\n                <span id="clear-account" class="del">\n            </label>\n            <input id="login-btn" class="login-btn"\n                type="submit" value="' + opts.loginBtnText + '">\n            </from>\n        </div>\n    ';
+    return tpl;
+}; /*
+    * @Author: mikey.zhaopeng 
+    * @Date: 2018-02-15 00:26:57 
+    * @Last Modified by: mikey.zhaopeng
+    * @Last Modified time: 2018-02-25 10:50:44
+    */
+
+exports.default = function () {
+    var conf = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    conf.container.innerHTML = template(conf);
+    var autocomplete = (0, _utils.getId)('no-autocomplete');
+    if (autocomplete) {
+        autocomplete.style.opacity = 0;
+        autocomplete.style.height = 0;
+    }
+};

@@ -1,0 +1,77 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _region2 = require('../../common/region.js');
+
+var _region3 = _interopRequireDefault(_region2);
+
+var _utils = require('../../common/utils.js');
+
+var _fetch = require('../../common/fetch.js');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var tpl = function tpl() {
+    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    return '<div id="register-info-wrapper" class="register-info-wrapper">\n    <form id="register-info-form" onsubmit="return false">\n        <label>\n            <span>\u6635\u79F0\uFF1A</span>\n            <input id="register-info-nickname" name="nickname" type="text" placeholder="\u6635\u79F0" valid="present, noOther" value="\n            ' + (data.nickname || '') + '">\n        </label>\n        <label>\n            <span>\u7535\u5B50\u90AE\u7BB1\uFF1A</span>\n            <input id="register-info-email" name="email" type="text" placeholder="\u7535\u5B50\u90AE\u7BB1" valid="present, email" value="' + (data.email || '') + '">\n        </label>\n        <label>\n            <span>\u771F\u5B9E\u59D3\u540D\uFF1A</span>\n            <input id="register-info-realname" name="realname" type="text" placeholder="\u771F\u5B9E\u59D3\u540D" value="\n            ' + (data.realname || '') + '">\n        </label>\n        <label>\n            <span>\u6027\u522B\uFF1A</span>\n            <select id="register-info-sex" name="sex" value="' + (data.sex || '') + '">\n                <option value="1">\u7537</option>\n                <option value="2">\u5973</option>\n            </select>\n        </label>\n        <label>\n            <span>\u751F\u65E5\uFF1A</span>\n            <input id="register-info-birthday" name="birthday" type="date" placeholder="\u751F\u65E5" value="' + (data.birthday || '') + '">\n        </label>\n        <label>\n            <span>\u5C45\u4F4F\u5730\uFF1A</span>\n            <div id="register-info-address"></div>\n        </label>\n        <label>\n            <span>&nbsp;</span>\n            <input id="register-info-btn" type="submit" value="' + (opts.btnText || '下一步') + '">\n        </label>\n    </form>\n    </div>';
+};
+
+exports.default = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(opts) {
+        var region, result, regionData, _region;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        if (opts.update) {
+                            _context.next = 5;
+                            break;
+                        }
+
+                        opts.container.innerHTML = tpl;
+                        region = new _region3.default({
+                            container: (0, _utils.getId)('register-info-address'),
+                            name: 'region'
+                        });
+                        _context.next = 9;
+                        break;
+
+                    case 5:
+                        _context.next = 7;
+                        return (0, _fetch.fetchJson)('/profile', {});
+
+                    case 7:
+                        result = _context.sent;
+
+                        if (result.code == 200) {
+                            opts.container.innerHTML = tpl(result.data);
+                            regionData = result.data.regionCode.split(',') || '';
+
+                            console.log(regionData);
+                            _region = new _region3.default({
+                                container: (0, _utils.getId)('register-info-address'),
+                                name: 'region',
+                                initData: regionData
+                            });
+                        }
+
+                    case 9:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined);
+    }));
+
+    return function (_x3) {
+        return _ref.apply(this, arguments);
+    };
+}();

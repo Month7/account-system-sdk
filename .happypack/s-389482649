@@ -1,0 +1,23 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.security = undefined;
+
+require('../common/polyfill');
+
+var _render = require('./render');
+
+var _render2 = _interopRequireDefault(_render);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import bindEvent from './event';
+// import FormCheck from '../common/formCheck';
+var security = function security(opts) {
+    (0, _render2.default)(opts);
+    // bindEvent(opts);
+};
+
+exports.security = security;

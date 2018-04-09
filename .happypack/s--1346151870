@@ -1,0 +1,34 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.regInfo = undefined;
+
+require('../../common/polyfill.js');
+
+require('../../common/fetch.js');
+
+var _render = require('./render.js');
+
+var _render2 = _interopRequireDefault(_render);
+
+var _event = require('./event.js');
+
+var _event2 = _interopRequireDefault(_event);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var regInfo = function regInfo() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var defaultOpts = {
+        btnText: '保存'
+    };
+
+    var options = Object.assign(defaultOpts, opts);
+    (0, _render2.default)(options).then(function () {
+        (0, _event2.default)(options);
+    });
+};
+exports.regInfo = regInfo;

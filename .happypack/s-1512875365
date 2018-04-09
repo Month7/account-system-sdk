@@ -1,0 +1,99 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = require('../common/utils.js');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var render = Symbol('render');
+var event = Symbol('event');
+var style = '<style>\n    .vs-wrapper {\n        position: relative;\n        width: 100%;\n        height: 100%;\n    }\n\n    .vs-moved-bg {\n        background: green;\n        width: 0;\n        position: absolute;\n        z-index: 999;\n        height: 100%;\n    }\n\n    .vs-unmoved-bg {\n        background: gray;\n        width: 100%;\n        position:absolute\n        z-index: 998;\n        height: 100%;\n    }\n\n    .vs-text {\n        position: absolute;\n        width: 100%;\n        top: 0;\n        z-index: 1000;\n        backgound: rgba(0,0,0,0);\n        text-align: center;\n    }\n\n    .vs-move-btn {\n        height: 100%;\n        width: 30px;\n        background: #333333;\n        position: absolute;\n        top: 0;\n        left: 0;\n        z-index: 1001;\n    }\n</style>';
+
+var Slider = function () {
+    function Slider(opts) {
+        _classCallCheck(this, Slider);
+
+        this.opts = opts;
+        if (!opts.container) {
+            console.log("opts.container错误");
+        } else {
+            this[render](opts);
+            this[event](opts);
+        }
+    }
+
+    _createClass(Slider, [{
+        key: render,
+        value: function value(opts) {
+            var unsuccessTip = opts.unsuccessTip || "请拖动滑块到最右边";
+            var tpl = style + ('\n            <div id="vs-wrapper" class="vs-wrapper">\n                <div id="vs-moved-bg" class="vs-moved-bg"></div>\n                <span id="vs-move-btn" class="vs-move-btn"></span>\n                <div id="vs-unmoved-bg" class="vs-unmoved-bg"></div>\n                <span id="vs-text" class="vs-text" ondrag="return false;">\n                    ' + unsuccessTip + '\n                </span>\n            </div>\n        ');
+
+            opts.container.innerHTML = tpl;
+        }
+    }, {
+        key: event,
+        value: function value(opts) {
+            var _this = this;
+
+            var $btn = (0, _utils.getId)('vs-move-btn');
+            var $moved = (0, _utils.getId)('vs-moved-bg');
+            var $wrapper = (0, _utils.getId)('vs-wrapper');
+            var $text = (0, _utils.getId)('vs-text');
+            var reset = function reset() {
+                _this.startX = 0;
+                _this.startY = 0;
+                _this.start = false;
+                _this.end = false;
+                $btn.style.left = '0px';
+                $moved.style.width = '0px';
+                _this.offsetArr = [];
+            };
+            $btn.onmousedown = function (e) {
+                _this.start = true;
+                _this.startX = e.pageX;
+                _this.startY = e.pageY;
+                _this.offsetArr = [];
+            };
+            window.onmousemove = function (e) {
+                if (_this.start && !_this.end) {
+                    var offsetX = e.pageX - _this.startX;
+                    var offsetY = e.pageY - _this.startY;
+                    _this.offsetArr.push(offsetX + "," + offsetY);
+                    $btn.style.left = offsetX + 'px';
+                    $moved.style.width = offsetX + 'px';
+                    var r2 = parseInt(window.getComputedStyle($wrapper).width) - parseInt(window.getComputedStyle($btn).width);
+                    var r1 = $moved.offsetLeft + parseInt(window.getComputedStyle($moved).width);
+                    if (r1 >= r2) {
+                        _this.end = true;
+                        _this.start = false;
+                        $btn.style.left = r2 + 'px';
+                        $moved.style.width = r2 + 'px';
+                        if (opts.success) {
+                            opts.success($wrapper, $text, _this.offsetArr);
+                        }
+                    }
+                }
+            };
+            window.onmouseup = function () {
+                if (!_this.end) {
+                    reset();
+                }
+            };
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {
+            this[render](this.opts);
+            this[event](this.opts);
+        }
+    }]);
+
+    return Slider;
+}();
+
+exports.default = Slider;

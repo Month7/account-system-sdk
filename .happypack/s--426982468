@@ -1,0 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var tpl = function tpl() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    return "\n        <div id=\"register-payment-wrapper\" class=\"register-payment-wrapper\">\n            <form id=\"register-payment-form\" onsubmit=\"return false\">\n                <label>\n                    <span>XX\u8D26\u53F7\uFF1A </span>\n                    <input id=\"register-payment-input\" name=\"uname\" type=\"text\" placeholder=\"" + opts.paymentPlaceHolder + "\" valid=\"present\">\n                </label>\n                <label>\n                    <span>XX\u5BC6\u7801\uFF1A </span>\n                    <input id=\"register-payment-password\" name=\"password\" type=\"text\" placeholder=\"" + opts.paymentPasswordPlaceHolder + "\" valid=\"present\">\n                </label>\n                <label>\n                    <span>&nbsp;</span>\n                    <div class=\"register-tip\"><img src=\"../images/tip-fill.png\">\u8FD8\u6CA1\u6709XX\u5B9D\u8D26\u6237\uFF0C<a href=\"#\">\u7ACB\u5373\u6CE8\u518C</a></div>\n                </label>\n                <input id=\"register-payment-btn\" type=\"submit\" value=\"\u4E0B\u4E00\u6B65\">\n            </form>\n        </div>\n    ";
+};
+
+exports.default = function (conf) {
+    conf.container.innerHTML = tpl(conf);
+};

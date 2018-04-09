@@ -1,0 +1,179 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slider = require('../../common/slider.js');
+
+var _slider2 = _interopRequireDefault(_slider);
+
+var _utils = require('../../common/utils.js');
+
+var _fetch = require('../../common/fetch.js');
+
+var _fromCheck = require('../../common/from-check.js');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+exports.default = function (opts) {
+    var mobileVerifyToken = void 0;
+
+    var $mobileInput = (0, _utils.getId)('register-mobile-input');
+    var $verifyInput = (0, _utils.getId)('register-verify-input');
+    var $verifyBtn = (0, _utils.getId)('register-verify-btn');
+    var $mobileBtn = (0, _utils.getId)('register-mobile-btn');
+    var $verifyMobile = (0, _utils.getId)('register-verify-mobile');
+    var $dialog = (0, _utils.getId)('register-verify-dialog');
+    var $dialogClose = (0, _utils.getId)('register-verify-dialog-close');
+    var $verifyForm = (0, _utils.getId)('register-verify-form');
+    var $mobileForm = (0, _utils.getId)('register-mobile-form');
+
+    var slider = new _slider2.default({
+        container: (0, _utils.getId)('register-verify-wrapper'),
+        success: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee($wrapper, $text, offsetArr) {
+                var offsetMsg, data;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                offsetMsg = offsetArr.join(":");
+                                _context.next = 3;
+                                return (0, _fetch.fetchPost)('/getMobileVerifyToken', {});
+
+                            case 3:
+                                data = _context.sent;
+
+                                if (data.code == 200) {
+                                    mobileVerifyToken = data.mobileVerifyToken;
+                                    (0, _utils.addClass)($wrapper, 'success');
+                                    $text.innerHTML = "验证成功";
+                                    $verifyBtn.removeAttribute('disabled');
+                                    (0, _utils.removeClass)($verifyBtn, 'disabled');
+                                } else {
+                                    (0, _utils.addClass)($wrapper, 'failed');
+                                    $text.innerHTML = "验证失败";
+                                }
+
+                            case 5:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, undefined);
+            }));
+
+            return function success(_x, _x2, _x3) {
+                return _ref.apply(this, arguments);
+            };
+        }()
+    });
+    $verifyBtn.onclick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var checkResult, type, data;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                        checkResult = (0, _fromCheck.check)($mobileForm);
+
+                        console.log(checkResult);
+
+                        if (!checkResult.length) {
+                            _context2.next = 7;
+                            break;
+                        }
+
+                        type = checkResult[0].type;
+
+
+                        if (type == 'present') {
+                            alert("请填写您的手机号!");
+                        } else if (type == 'mobile') {
+                            alert("请填写正确的手机号");
+                        }
+                        _context2.next = 11;
+                        break;
+
+                    case 7:
+                        _context2.next = 9;
+                        return (0, _fetch.fetchPost)('/register/getVerifyCode', {
+                            mobile: $mobileInput.value,
+                            mobileVerifyToken: mobileVerifyToken
+                        });
+
+                    case 9:
+                        data = _context2.sent;
+
+                        if (data.code == 200) {
+                            $dialog.style.display = 'block';
+                            $verifyMobile.innerHTML = data.mobile;
+                            mobileVerifyToken = '';
+                            slider.reset();
+                        } else {
+                            alert("失败");
+                        }
+
+                    case 11:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, undefined);
+    }));
+    $dialogClose.onclick = function () {
+        $dialog.style.display = 'none';
+        mobileVerifyToken = '';
+        slider.reset();
+    };
+    $verifyInput.oninput = function () {
+        var MSGLENGTH = 6;
+        var value = $verifyInput.value;
+        $verifyInput.value = value.replace(/\D/g, '');
+        if ($verifyInput.value.length > MSGLENGTH - 1) {
+            $mobileBtn.removeAttribute('disabled');
+            (0, _utils.removeClass)($mobileBtn, 'disabled');
+            (0, _utils.addClass)($mobileBtn, 'btn-primary');
+            if ($verifyInput.value.length > MSGLENGTH) {
+                $verifyInput.value = $verifyInput.value.substring(0, MSGLENGTH);
+            }
+        } else {
+            $mobileBtn.setAttribute('disabled', 'disabled');
+            (0, _utils.removeClass)($mobileBtn, 'btn-primary');
+            (0, _utils.addClass)($mobileBtn, 'disabled');
+        }
+    };
+    $mobileBtn.onclick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var data;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        _context3.next = 2;
+                        return (0, _fetch.fetchPost)('/register/mobile', {
+                            mobile: $verifyMobile.innerText,
+                            verifyCode: $verifyInput.value,
+                            mobileVerifyToken: mobileVerifyToken
+                        });
+
+                    case 2:
+                        data = _context3.sent;
+
+                        if (data.code == 200) {
+                            if (opts.success) {
+                                opts.success();
+                            }
+                        } else {
+                            alert("验证码错误");
+                        }
+
+                    case 4:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, undefined);
+    }));
+};

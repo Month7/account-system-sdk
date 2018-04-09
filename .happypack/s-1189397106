@@ -1,0 +1,14 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var tpl = function tpl() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    return '<div id="register-mobile-wrapper" class="register-mobile-wrapper">\n    <form id="register-mobile-form" onsubmit="return false">\n        <label>\n            <span>\u624B\u673A\u53F7\uFF1A </span>\n            <input id="register-mobile-input" name="mobile" type="text" placeholder="' + (opts.mobilePlaceHolder || ' ') + '" valid="present, mobile">\n        </label>\n        <label>\n            <span>\u9A8C\u8BC1\uFF1A </span>\n            <div id="register-verify-wrapper" class="register-verify-wrapper"></div>\n        </label>\n        <input id="register-verify-btn" class="disabled" disabled type="submit" value="\u4E0B\u4E00\u6B65">\n    </form>\n\n    <div class="register-verify-dialog" id="register-verify-dialog">\n        <div class="register-verify-dialog-header">\n            <div class="register-verify-dialog-close" id="register-verify-dialog-close"></div>\n        </div>\n        <p class="register-tip">\n            <img src="../images/tip-fill.png">\u6821\u9A8C\u7801\u5DF2\u53D1\u9001\u5230\u4F60\u7684\u624B\u673A\uFF0C15\u5206\u949F\u5185\u8F93\u5165\u6709\u6548\uFF0C\u8BF7\u52FF\u6CC4\u6F0F\n        </p>\n        <form id="register-verify-form" onsubmit="return false">\n            <label>\n                <span>\u624B\u673A\u53F7\uFF1A </span>\n                <div id="register-verify-mobile"></div>\n            </label>\n            <label>\n                <span>\u9A8C\u8BC1\u7801\uFF1A </span>\n                <input type="text" name="verify" id="register-verify-input">\n            </label>\n            <label>\n                <span>&nbsp;</span>\n                <div class="register-tip"><img src="../images/ok-fill.png">\u6821\u9A8C\u7801\u5DF2\u53D1\u9001\u81F3\u4F60\u7684\u624B\u673A\uFF0C\u8BF7\u67E5\u6536</div>\n            </label>\n            <input id="register-mobile-btn" class="disabled" disabled type="submit" value="\u786E\u8BA4">\n        </form>\n    </div>\n</div>';
+};
+
+exports.default = function (conf) {
+    conf.container.innerHTML = tpl(conf);
+};

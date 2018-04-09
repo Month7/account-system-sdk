@@ -1,0 +1,88 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _fetch = require('../../common/fetch.js');
+
+var _utils = require('../../common/utils.js');
+
+var _fromCheck = require('../../common/from-check.js');
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+exports.default = function (opts) {
+    var $form = (0, _utils.getId)('register-info-form');
+    var formValues = {};
+    Array.from($form.elements).forEach(function (item) {
+        if (item.name) {
+            formValues[item.name] = item.value;
+        }
+    });
+    $form.onsubmit = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+            var na, checkResults, name, type, message, data;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            e.preventDefault();
+                            na = {
+                                'nickname': '昵称',
+                                'email': '邮箱'
+                            };
+                            checkResults = (0, _fromCheck.check)($form);
+
+                            if (!checkResults.length) {
+                                _context.next = 10;
+                                break;
+                            }
+
+                            name = checkResults[0].name;
+                            type = checkResults[0].type;
+                            message = checkResults[0].message;
+
+                            if (type == '  present') {
+                                alert(na[name] + message);
+                            } else {
+                                alert(message);
+                            }
+
+                            _context.next = 18;
+                            break;
+
+                        case 10:
+                            _context.next = 12;
+                            return (0, _fetch.fetchPost)('/register/info', formValues);
+
+                        case 12:
+                            data = _context.sent;
+
+                            if (!(data.code == 200)) {
+                                _context.next = 17;
+                                break;
+                            }
+
+                            if (opts.success) {
+                                opts.success();
+                            }
+                            _context.next = 18;
+                            break;
+
+                        case 17:
+                            throw 'error';
+
+                        case 18:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function (_x) {
+            return _ref.apply(this, arguments);
+        };
+    }();
+};

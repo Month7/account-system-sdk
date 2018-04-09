@@ -1,0 +1,10 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var tpl = "\n<div id=\"forget-wrapper\">\n<div class=\"choose-find-mod\">\n    <div class=\"find-mod\" id=\"choose-mobile\">\u4F7F\u7528\u624B\u673A\u53F7\u627E\u56DE\u5BC6\u7801</div>\n    <div class=\"find-mod\" id=\"choose-email\">\u4F7F\u7528\u90AE\u7BB1\u627E\u56DE\u5BC6\u7801</div>\n    <div class=\"clear-fix\"></div>\n    <div class=\"forget-dialog\" id=\"forget-dialog\">\n\n    </div>\n</div>\n</div>\n";
+
+exports.default = function (conf) {
+    conf.container.innerHTML = tpl;
+};

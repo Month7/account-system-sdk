@@ -1,0 +1,87 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _fetch = require('../common/fetch');
+
+var _utils = require('../common/utils');
+
+var _region = require('../common/region');
+
+var _region2 = _interopRequireDefault(_region);
+
+var _event = require('./event');
+
+var _event2 = _interopRequireDefault(_event);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var regionData = void 0;
+
+var tpl = function tpl() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var data = opts.data;
+    var currentData = void 0;
+    if (opts.addrId) {
+        currentData = data.find(function (item) {
+            return parseInt(opts.addrId) === item.addrId;
+        });
+        regionData = currentData.regionCode ? currentData.regionCode.split(",").map(function (item) {
+            return parseInt(item);
+        }) : '';
+    } else {
+        currentData = {};
+    }
+    var tpl = '\n    <div id="delivery-address-wrapper" class="delivery-address-wrapper">\n        <form id="delivery-address-form" onsubmit="return false">\n            <input id="delivery-address-id" name="addrId" type="hidden" value="' + (currentData.addrId || '') + '">\n            <label>\n                <span>\u7701\u5E02\u533A\uFF1A</span>\n                <div id="delivery-address-region"></div>\n            </label>\n            <label>\n                <span>\u8BE6\u7EC6\u5730\u5740\uFF1A</span>\n                <textarea id="delivery-address-detail" name="detailAddress"  placeholder="\u8BE6\u7EC6\u5730\u5740" valid="present" rows="3" cols="20">' + (currentData.detailAddress || '') + '</textarea>\n            </label>\n            <label>\n                <span>\u90AE\u653F\u7F16\u7801\uFF1A</span>\n                <input id="delivery-address-email" name="postalcode" type="text" placeholder="\u90AE\u653F\u7F16\u7801" value="' + (currentData.postalcode || '') + '">\n            </label>\n            <label>\n                <span>\u6536\u8D27\u4EBA\u59D3\u540D\uFF1A</span>\n                <input id="delivery-address-name" name="name" type="text" placeholder="\u771F\u5B9E\u59D3\u540D" value="' + (currentData.name || '') + '" valid="present">\n            </label>\n            <label>\n                <span>\u624B\u673A\u53F7\u7801\uFF1A</span>\n                <input id="delivery-address-mobile" name="mobile" type="text" placeholder="\u624B\u673A\u53F7\u7801" value="' + (currentData.mobile || '') + '" valid="present, mobile">\n            </label>\n            <label>\n                <span>\u56FA\u5B9A\u7535\u8BDD\uFF1A</span>\n                <input id="delivery-address-telphone" name="telphone" type="text" placeholder="\u56FA\u8BDD\u53F7\u7801" value="' + (currentData.telephone || '') + '">\n            </label>\n            <label>\n                <span>&nbsp;</span>\n                <input id="save-delivery-address" type="submit" value="\u4FDD\u5B58">\n            </label>\n\n        </form>\n\n        <div class="delivery-address-list" id="delivery-address-list">\n            <table>\n                <tr>\n                    <th>\n                        \u6536\u8D27\u4EBA\n                    </th>\n                    <th>\n                        \u6240\u5728\u5730\u533A\n                    </th>\n                    <th>\n                        \u8BE6\u7EC6\u5730\u5740\n                    </th>\n                    <th>\n                        \u90AE\u7F16\n                    </th>\n                    <th>\n                        \u624B\u673A/\u56FA\u8BDD\n                    </th>\n                    <th>\n                        \u64CD\u4F5C\n                    </th>\n                <tr>\n';
+    data.forEach(function (item) {
+        tpl += '\n        <tr>\n            <td>\n                ' + item.name + '\n            </td>\n            <td>\n                ' + item.regionSting + '\n            </td>\n            <td>\n                ' + item.detailAddress + '\n            </td>\n            <td>\n                ' + item.postalcode + '\n            </td>\n            <td>\n                ' + (item.mobile || item.telephone) + '\n            </td>\n            <td>\n                <a href="javascript:void(0);" class="del-delivery-address" data-id="' + item.addrId + '">\u5220\u9664</a> | <a href="delivery-address.html?addrId=' + item.addrId + '">\u4FEE\u6539</a>\n            </td>\n        <tr>';
+    });
+    tpl += '\n        </table>\n        </div>\n        </div>\n    ';
+    return tpl;
+};
+
+exports.default = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(opts) {
+        var result, region;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        _context.next = 2;
+                        return (0, _fetch.fetchJson)('/delivery-address', {});
+
+                    case 2:
+                        result = _context.sent;
+
+                        if (result.code == 200) {
+                            opts.container.innerHTML = tpl({
+                                data: result.data,
+                                addrId: opts.addrId || (0, _utils.getUrlParams)('addrId')
+                            });
+                            region = new _region2.default({
+                                container: (0, _utils.getId)('delivery-address-region'),
+                                name: 'region',
+                                preset: true,
+                                initData: regionData
+                            });
+                        } else {
+                            alert("失败！");
+                        }
+
+                    case 4:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined);
+    }));
+
+    return function (_x2) {
+        return _ref.apply(this, arguments);
+    };
+}();

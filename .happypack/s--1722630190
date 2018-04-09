@@ -1,0 +1,13 @@
+'use strict';
+
+require('es5-shim');
+
+require('babel-polyfill');
+
+require('es6-promise/auto');
+
+require('fetch-detector');
+
+require('fetch-ie8');
+
+require('./mock');

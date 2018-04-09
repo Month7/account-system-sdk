@@ -1,0 +1,32 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _init = require('./mobile/init.js');
+
+Object.defineProperty(exports, 'regMobile', {
+  enumerable: true,
+  get: function get() {
+    return _init.regMobile;
+  }
+});
+
+var _init2 = require('./info/init.js');
+
+Object.defineProperty(exports, 'regInfo', {
+  enumerable: true,
+  get: function get() {
+    return _init2.regInfo;
+  }
+});
+
+var _init3 = require('./payment/init.js');
+
+Object.defineProperty(exports, 'regPayment', {
+  enumerable: true,
+  get: function get() {
+    return _init3.regPayment;
+  }
+});

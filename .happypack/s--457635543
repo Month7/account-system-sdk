@@ -1,0 +1,149 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _fetch = require('../common/fetch.js');
+
+var _utils = require('../common/utils.js');
+
+var _findTpl = require('./findTpl.js');
+
+var _findTpl2 = _interopRequireDefault(_findTpl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+exports.default = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(opts) {
+        var findInfo, $chooseMobile, $chooseEmail, $dialog, forget;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        _context3.next = 2;
+                        return (0, _fetch.fetchJson)('/security-info', {});
+
+                    case 2:
+                        findInfo = _context3.sent;
+                        $chooseMobile = (0, _utils.getId)('choose-mobile');
+                        $chooseEmail = (0, _utils.getId)('choose-email');
+                        $dialog = (0, _utils.getId)('forget-dialog');
+
+                        forget = function () {
+                            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(type) {
+                                var $verifyInput, $forgetBtn, $number, $close, typeAlias, typeTool, sendVerifyCode;
+                                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                    while (1) {
+                                        switch (_context2.prev = _context2.next) {
+                                            case 0:
+                                                $verifyInput = (0, _utils.getId)('forget-verify-input');
+                                                $forgetBtn = (0, _utils.getId)('forget-confirm-btn');
+                                                $number = (0, _utils.getId)('forget-verify-number');
+                                                $close = (0, _utils.getId)('forget-dialog-close');
+                                                typeAlias = type === '邮箱' ? 'email' : 'mobile';
+                                                typeTool = type === '邮箱' ? '邮件' : '短信';
+                                                _context2.next = 8;
+                                                return (0, _fetch.fetchPost)('/send-forget-verifycode', {
+                                                    type: type
+                                                });
+
+                                            case 8:
+                                                sendVerifyCode = _context2.sent;
+
+                                                if (sendVerifyCode.code == 200) {
+                                                    $dialog.style.display = 'block';
+                                                    $verifyInput.oninput = function () {
+                                                        var MSGLENGTH = 6;
+                                                        var value = $verifyInput.value;
+                                                        //过滤非数字输入
+                                                        $verifyInput.value = value.replace(/\D/g, '');
+                                                        //长度过滤
+                                                        if ($verifyInput.value.length > MSGLENGTH - 1) {
+                                                            $forgetBtn.removeAttribute('disabled');
+                                                            (0, _utils.removeClass)($forgetBtn, 'disabled');
+                                                            (0, _utils.addClass)($forgetBtn, 'btn-primary');
+                                                            if (value.length > MSGLENGTH) {
+                                                                $verifyInput.value = value.substring(0, MSGLENGTH);
+                                                            }
+                                                        } else {
+                                                            (0, _utils.removeClass)($forgetBtn, 'btn-primary');
+                                                            (0, _utils.addClass)($forgetBtn, 'disabled');
+                                                            $forgetBtn.setAttribute('disabled', 'disabled');
+                                                        }
+                                                    };
+                                                } else {
+                                                    alert("发送" + typeTool + "失败");
+                                                }
+                                                $close.onclick = function () {
+                                                    $dialog.style.display = 'none';
+                                                    $verifyInput.value = '';
+                                                    $number.innerHTML = '';
+                                                };
+                                                $forgetBtn.onclick = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                                                    var data;
+                                                    return regeneratorRuntime.wrap(function _callee$(_context) {
+                                                        while (1) {
+                                                            switch (_context.prev = _context.next) {
+                                                                case 0:
+                                                                    _context.next = 2;
+                                                                    return (0, _fetch.fetchPost)('/forget', {
+                                                                        number: $number.innerText,
+                                                                        verifyCode: $verifyInput.value
+                                                                    });
+
+                                                                case 2:
+                                                                    data = _context.sent;
+
+
+                                                                    if (data.code == 200) {
+
+                                                                        opts.success && opts.success(type, typeTool);
+                                                                    } else {
+                                                                        alert("验证码错误");
+                                                                    }
+
+                                                                case 4:
+                                                                case 'end':
+                                                                    return _context.stop();
+                                                            }
+                                                        }
+                                                    }, _callee, undefined);
+                                                }));
+
+                                            case 12:
+                                            case 'end':
+                                                return _context2.stop();
+                                        }
+                                    }
+                                }, _callee2, undefined);
+                            }));
+
+                            return function forget(_x2) {
+                                return _ref2.apply(this, arguments);
+                            };
+                        }();
+
+                        $chooseMobile.onclick = function () {
+                            $dialog.innerHTML = (0, _findTpl2.default)('手机', findInfo.data.mobile);
+                            forget('mobile');
+                        };
+                        $chooseEmail.onclick = function () {
+                            $dialog.innerHTML = (0, _findTpl2.default)('邮箱', findInfo.data.email);
+                            forget('email');
+                        };
+
+                    case 9:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, undefined);
+    }));
+
+    return function (_x) {
+        return _ref.apply(this, arguments);
+    };
+}();

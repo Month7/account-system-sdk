@@ -1,0 +1,36 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var fetchPost = function fetchPost(url, params) {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        credentials: 'include', //带cookie
+        params: params
+    }).then(function (res) {
+        if (!res.ok) {
+            throw Error(res.statusText);
+        }
+        return res.json();
+    });
+};
+var fetchJson = function fetchJson(url, params) {
+    return fetch(url, {
+        method: 'GET',
+        headers: {},
+        credentials: 'include', //带cookie
+        params: params
+    }).then(function (res) {
+        if (!res.ok) {
+            throw Error(res.statusText);
+        }
+        return res.json();
+    });
+};
+exports.fetchPost = fetchPost;
+exports.fetchJson = fetchJson;

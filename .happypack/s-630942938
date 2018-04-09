@@ -1,0 +1,40 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.login = undefined;
+
+require('../common/polyfill.js');
+
+var _render = require('./render.js');
+
+var _render2 = _interopRequireDefault(_render);
+
+var _event = require('./event.js');
+
+var _event2 = _interopRequireDefault(_event);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var login = function login() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var defaultOpts = {
+        loginBtnText: '登 录',
+        accountPlaceholder: '用户名/邮箱/账号',
+        passwordPlaceholder: '请输入密码',
+        accountLabel: '',
+        passwordLabel: ''
+    };
+    var options = Object.assign(defaultOpts, opts);
+    (0, _render2.default)(options);
+    (0, _event2.default)(options);
+}; /*
+    * @Author: mikey.zhaopeng 
+    * @Date: 2018-02-15 00:26:43 
+    * @Last Modified by:   mikey.zhaopeng 
+    * @Last Modified time: 2018-02-15 00:26:43 
+    */
+
+exports.login = login;

@@ -1,0 +1,106 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var getId = function getId(id) {
+    var dom = document.getElementById(id);
+    dom && dom.setAttribute('id', dom.id + '-' + Math.floor(Math.random() * 100000));
+    return dom;
+};
+var hasClass = function hasClass(obj, cls) {
+    return obj.className.match(new RegExp('\s|^' + obj + '$|\s'));
+};
+var addClass = function addClass(obj, cls) {
+    obj.className += ' ' + cls;
+};
+var removeClass = function removeClass(obj, cls) {
+    if (hasClass(obj, cls)) {
+        var reg = new RegExp('\s|^' + obj + '$|\s');
+        obj.className = obj.className.replace(reg, ' ');
+    }
+};
+//判断是否是对象
+var checkOptions = function checkOptions(obj) {
+    if (Object.prototype.toString.call(obj) !== '[object Object]') {
+        return false;
+    }
+};
+var isDom = function isDom(obj) {
+    try {
+        return obj instanceof HTMLElement;
+    } catch (e) {
+        return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.nodeType === 1 && _typeof(obj.style) === 'object';
+    }
+};
+var getUrlParams = function getUrlParams(key) {
+    var query = location.search.replace(/^\?/, '');
+    var obj = {};
+    query.split('&').map(function (item) {
+        var tmp = item.split("=");
+        obj[tmp[0]] = tmp[1];
+    });
+    if (!key) {
+        return obj;
+    } else {
+        return obj[key];
+    }
+};
+/**
+ * 事件委托 or 事件绑定
+ * bindEvent(el,evevtType,fn) //事件绑定
+ * bindEvent(el,evevtType,classSelector fn)
+ */
+var bindEvent = function bindEvent(el, evevtType) {
+    var selector = void 0,
+        fn = void 0,
+        target = void 0;
+    // const findNode=(element,selector,endel)=>{
+    //     if(element==endel){
+    //         return;
+    //     }
+    //     if(document.querySelector(selector).className==element.className){
+    //         target=el;
+    //         return;
+    //     }
+    //     else{
+    //         findNode(element.parentNode,selector,endel);
+    //     }
+    // }
+    var findNode = function findNode(el, selector, endel) {
+        if (el === endel) {
+            return;
+        }
+        // console.log(el, tagName);
+        if (document.querySelector(selector).className === el.className) {
+            target = el;
+        } else {
+            findNode(el.parentNode, selector, endel);
+        }
+    };
+    if (typeof (arguments.length <= 2 ? undefined : arguments[2]) == 'string') {
+        selector = arguments.length <= 2 ? undefined : arguments[2];
+        if (typeof (arguments.length <= 3 ? undefined : arguments[3]) == 'function') {
+            fn = arguments.length <= 3 ? undefined : arguments[3];
+        }
+    }
+    if (typeof (arguments.length <= 3 ? undefined : arguments[3]) == 'function') {
+        fn = arguments.length <= 3 ? undefined : arguments[3];
+    }
+    el.addEventListener(evevtType, function (e) {
+        if (!selector) {
+            fn.call(el, e);
+        } else {
+            findNode(e.target, selector, el);
+            target && fn.call(target, { target: target });
+        }
+    });
+};
+exports.getId = getId;
+exports.addClass = addClass;
+exports.removeClass = removeClass;
+exports.getUrlParams = getUrlParams;
+exports.bindEvent = bindEvent;

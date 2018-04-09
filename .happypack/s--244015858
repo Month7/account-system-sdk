@@ -1,0 +1,96 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/*
+ * @Author: mikey.zhaopeng 
+ * @Date: 2018-02-16 02:48:17 
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-02-23 01:38:41
+ */
+var rules = {
+    ltFFFF: function ltFFFF(value) {
+        if (value.map(/\u{ffff}-\u{fffff}/)) {
+            return {
+                type: 'ltFFFF',
+                message: '您输入了非法字符'
+            };
+        }
+    },
+    noOther: function noOther(value) {
+        if (value.match(/[Cp\{\}]/)) {
+            return {
+                type: 'noOther',
+                message: '您输入了非法字符'
+            };
+        }
+    },
+    mobile: function mobile(value) {
+        // console.log("!!");
+
+        if (!value.match(/^1\d{10}$/)) {
+            return {
+                type: 'present',
+                message: '手机号格式不对!'
+            };
+        }
+    },
+    email: function email(v) {
+        if (!v.match(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)) {
+            return {
+                type: 'email',
+                message: '请填入正确的邮箱'
+            };
+        }
+    },
+    present: function present(value) {
+        // trim移除字符串中多余符号
+        if (!value.trim()) {
+
+            return {
+                type: 'present',
+                message: '必填'
+            };
+        }
+        return;
+    }
+};
+var check = function check(form) {
+    // console.log("form"+form);
+    // console.log("elements"+form.elements);
+    if (!(form || form.elements)) {
+        console.log("form不存在!");
+        return;
+    }
+    var elements = form.elements;
+    var checkResults = [];
+
+    //类数组转化为数组并筛选
+    Array.from(elements).filter(function (item) {
+        return item.getAttribute('valid');
+    }).map(function (item) {
+        var valids = item.getAttribute('valid').split(", ");
+        var value = item.value;
+        var errorArr = [];
+        valids.forEach(function (valid) {
+            if (rules[valid]) {
+                var result = rules[valid](value);
+                if (result) {
+                    errorArr.push(result);
+                }
+            }
+        });
+        if (errorArr.length) {
+            checkResults.push({
+                dom: item,
+                errorArr: errorArr,
+                name: item.name,
+                message: errorArr[0].message,
+                type: errorArr[0].type
+            });
+        }
+    });
+    return checkResults;
+};
+exports.check = check;
